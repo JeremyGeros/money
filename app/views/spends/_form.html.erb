@@ -1,0 +1,39 @@
+<%= form_with(model: spend, local: true, html: { autocomplete: "off", class: 'w-full'}) do |form| %>
+  <div class='mb-4'>
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'text-input w-full' %>
+  </div>
+
+  <div class='mb-4 flex items-center'>
+    <div class='mr-4'>
+      <%= form.label :always_positive %>
+      <%= form.check_box :always_positive, class: 'text-input' %>
+    </div>
+
+    <div class='mr-4'>
+      <%= form.label :category %>
+      <%= form.select :category, options_for_select(Spend.categories.keys, spend.category), {}, class: 'text-input w-52' %>
+    </div>
+
+    <div class='mr-4'>
+      <%= form.label :spend_group %>
+      <%= form.select :spend_group, options_for_select(Spend.spend_groups.keys, spend.spend_group), {}, class: 'text-input w-52' %>
+    </div>
+
+    <div class=''>
+      <%= form.label :icon, 'Icon' %>
+      <%= form.file_field :icon, class: 'text-input' %>
+    </div>
+  </div>
+
+  <div class='mb-4'>
+    <%= form.label :lookups %>
+    <% spend.lookups.each do |lookup| %>
+      <%= text_field_tag 'spend[lookups][]', lookup, multiple:true, class: 'text-input w-full mb-2' %>
+    <% end %>
+    <%= text_field_tag 'spend[lookups][]', '', multiple: true, class: 'text-input w-full mb-2' %>
+    <%= text_field_tag 'spend[lookups][]', '', multiple: true, class: 'text-input w-full mb-2' %>
+  </div>
+
+  <%= form.submit 'Update', class: 'btn btn-primary' %>
+<% end %>

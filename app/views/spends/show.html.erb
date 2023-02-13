@@ -1,0 +1,11 @@
+<h1><%= @spend.name %></h1>
+
+<div class='flex '>
+  <%= @spend.category %>
+  <%= @spend.spend_group %>
+
+  <%= link_to "Edit spend", edit_spend_path(@spend), class: 'btn btn-link' %>
+</div>
+
+<h2>Transactions</h2>
+<%= render 'transactions/list', transactions: @spend.transactions %>

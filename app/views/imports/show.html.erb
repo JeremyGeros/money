@@ -1,0 +1,22 @@
+<%= link_to 'Back to imports', imports_path, class: 'btn btn-link mb-6' %>
+
+
+<% if @import.pending? || @import.processing? %>
+  <div data-controller='import-check' data-import-check-import-value="<%= @import.id %>">
+    <h1>Import in Progress</h1>
+    <p>You import is in progress this page will update when it is complete, you can leave this page and come back later.</p>
+  </div>
+<% elsif @import.failed? %>
+  <div>
+    <h1>Import Failed</h1>
+    <p>There was an error importing your data, please try again later.</p>
+  </div>
+<% elsif @import.imported? %>
+  <div>
+    <h1>Import completed</h1>
+    <p>Import completed successfully.</p>
+    <ul>
+      <li>Transactions imported: <%= @import.total_transactions %></li>
+    </ul>
+  </div>
+<% end %>

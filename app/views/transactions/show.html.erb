@@ -1,0 +1,55 @@
+<h1 class='break-all'>Transaction: <%= @transaction.name %></h1>
+
+<%= link_to 'Back to transactions', account_path(@transaction.account), class: 'btn btn-link mb-6' %>
+
+
+<%= form_with(model: @transaction, local: true, html: { autocomplete: "off", class: 'w-full mt-6'}) do |form| %>
+  <div class='mb-4'>
+    <%= form.label :details %>
+    <div class='text-input w-full'><%= @transaction.details %></div>
+  </div>
+
+  <div class='mb-4'>
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'text-input w-full' %>
+  </div>
+
+  <div class='mb-4'>
+    <%= form.label :rfc %>
+    <%= form.text_field :rfc, class: 'text-input w-full' %>
+  </div>
+
+  <div class='mb-4 flex items-center'>
+    <div class='mr-4'>
+      <%= form.label :amount %>
+      <%= form.text_field :amount, class: 'text-input' %>
+    </div>
+    <div class='mr-4'>
+      <%= form.label :made_at %>
+      <%= form.date_field :made_at, class: 'text-input' %>
+    </div>
+
+    <div class='mr-4'>
+      <%= form.label :account_id %>
+      <%= form.select :account_id, options_from_collection_for_select(Account.all, :id, :name, @transaction.account_id), {}, class: 'text-input w-32' %>
+    </div>
+
+    <div class=''>
+      <%= form.label :spend_id %>
+      <%= form.select :spend_id, options_from_collection_for_select(Spend.all, :id, :name, @transaction.spend_id), {include_blank: true}, class: 'text-input w-32' %>
+    </div>
+  </div>
+
+  <div class='flex'>
+    <%= form.submit 'Update', class: 'btn btn-primary' %>
+    <div class='flex-1'></div>
+    <%= link_to 'Delete', transaction_path(@transaction), method: :delete, confirm: 'Are you sure you wish to delete this transaction?', class: 'btn btn-danger' %>
+  </div>
+<% end %>
+
+<h1 class='mt-10'>Spend</h1>
+
+<% if @transaction.spend %>
+  <p>Matched to <%= link_to @transaction.spend.name, spend_path(@transaction.spend) %></p>
+<% end %>
+

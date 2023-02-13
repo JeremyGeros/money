@@ -1,0 +1,18 @@
+<div class='flex gap-2 mb-4'>
+  <div class='flex-1'>
+  </div>
+
+  <%= link_to 'Import', imports_path(import: {account_id: @account.id}) %>
+  <%= link_to 'Edit', edit_account_path(@account) %>
+</div>
+
+<div class='flex border-b border-zinc-300 items-center pb-4 mb-4'>
+  <h1 class='flex-1 text-2xl font-bold'><%= @account.name %></h1>
+
+  <div class='text-right'>
+    <h2 class='text-green-500 text-xl '><%= display_account_balance(@account) %></h2>
+    <h4 class='mt-1 text-sm flex items-center justify-end'><%= up_down_arrows_icon(4, 'mr-1') %><span class='mr-2'>(<%= 1.month.ago.strftime("%b") %>)</span> <%= display_amount_colored(@account.balance_change(1.month.ago.beginning_of_month, 1.month.ago.end_of_month)) %>
+  </div>
+</div>
+
+<%= render 'transactions/list', transactions: @transactions %>

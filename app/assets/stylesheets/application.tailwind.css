@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .btn {
+    @apply text-white py-2 px-4 rounded cursor-pointer;
+  }
+
+  .btn-small {
+    @apply py-1 px-2 text-sm;
+  }
+
+  .btn-primary {
+    @apply bg-pink-600/70;
+  }
+
+  .btn-primary:hover {
+    @apply bg-pink-800;
+  }
+
+  .btn-blue {
+    @apply bg-blue;
+  }
+
+  .btn-blue:hover {
+    @apply bg-blue-light;
+  }
+
+  .btn-secondary {
+    @apply bg-zinc-800;
+  }
+
+  .btn-secondary:hover {
+    @apply bg-pink-600/40;
+  }
+
+  .btn-danger {
+    @apply bg-red-700/60;
+  }
+
+  .btn-danger:hover {
+    @apply bg-red-800;
+  }
+
+  .btn-link {
+    @apply text-gray-900 font-normal px-0;
+  }
+
+  .btn-link:hover {
+    @apply text-gray-600 underline;
+  }
+
+  .text-input {
+    @apply block rounded px-2 py-2 bg-white border border-zinc-300 text-gray-900 outline-none;
+  }
+
+  .text-input:focus {
+    @apply ring ring-blue-500 border-blue-100;
+  }
+
+  .divider {
+    @apply h-px bg-zinc-700;
+  }
+
+  .nav-active {
+    @apply text-pink-600;
+  }
+
+}
+
+@import 'actiontext.css';

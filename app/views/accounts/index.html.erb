@@ -1,0 +1,15 @@
+<div class='flex border-b border-zinc-300 items-center pb-4 mb-4'>
+  <h1 class='flex-1 text-2xl font-bold'>Accounts</h1>
+
+  <%= link_to 'New Account', new_account_path, class: 'btn btn-link' %>
+</div>
+
+<div class='mt-4 flex gap-4'>
+  <% @accounts.each do |account| %>
+    <div class='border border-gray-300 rounded p-8 text-center'>
+      <h2 class='text-2xl font-bold flex items-center'><%= image_tag account.logo, class: 'w-6 mr-2' if account.logo.attached? %><%= link_to account.name, account_path(account) %></h2>
+      <h2 class='text-green-500 text-xl my-2'><%= display_account_balance(account) %></h2>
+      <h4 class='mt-1 text-sm flex items-center justify-center'><%= up_down_arrows_icon(4, 'mr-1') %><span class='mr-2'>(<%= 1.month.ago.strftime("%b") %>)</span> <%= display_amount_colored(account.balance_change(1.month.ago.beginning_of_month, 1.month.ago.end_of_month)) %>
+    </div>
+  <% end %>
+</div>

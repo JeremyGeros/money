@@ -1,0 +1,53 @@
+<%= form_with(model: account, local: true, html: { autocomplete: "off" }) do |form| %>
+  <% if account.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(account.errors.count, "error") %> prohibited this account from being saved:</h2>
+
+      <ul>
+        <% account.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-4">
+    <%= form.label :name %>
+    <%= form.text_field :name, class: 'text-input' %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :bank %>
+    <%= form.text_field :bank, class: 'text-input' %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :account_number %>
+    <%= form.text_field :account_number, class: 'text-input' %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :starting_balance %>
+    <%= form.text_field :starting_balance, class: 'text-input' %>
+  </div>
+
+  <div class='mb-4'>
+    <%= form.label :logo, 'Logo' %>
+    <%= form.file_field :logo, class: 'text-input' %>
+  </div>
+
+  <div class="mb-4">
+    <%= form.label :currency %>
+    <%= form.select :currency, options_for_select(Account.currencies.keys, account.currency), {}, class: 'text-input w-52' %>
+  </div>
+
+
+
+
+  <div class="actions my-10 flex justify-between">
+    <%= form.submit 'Save', class: 'btn btn-primary mr-10' %>
+    <%= link_to 'Cancel', accounts_path, class: 'btn btn-secondary' %>
+  </div>
+      
+
+<% end %>

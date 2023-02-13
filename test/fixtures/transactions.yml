@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account: one
+  made_at: 2023-02-12 18:09:50
+  details: MyString
+  amount: 1.5
+
+two:
+  account: two
+  made_at: 2023-02-12 18:09:50
+  details: MyString
+  amount: 1.5

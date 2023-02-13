@@ -1,0 +1,19 @@
+
+<table class='w-full  mt-1' >
+  <thead class='font-bold'>
+    <tr>
+      <th class='text-left'>Transaction</th>
+      <th class='text-right'>Amount</th>
+      <th class='text-right'>Made at</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% transactions.each do |transaction| %>
+      <tr class='border-b border-zinc-200'>
+        <td class='break-all py-2'><span class='mr-2'><%= display_spend_category(transaction.spend) %></span><%= link_to transaction.pretty_name, transaction_path(transaction) %></td>
+        <td class='text-right'><%= display_amount_colored(transaction.amount) %></td>
+        <td class='text-right'><%= pretty_date_display(transaction.made_at) %></td>
+      </tr>
+    <% end %>
+</table>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Budget</title>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <meta name="robots" content="noindex">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/6915652/6078012/css/fonts.css" />
+  </head>
+
+  <body class="bg-white text-gray-900">
+    <%= render 'layouts/header' if Current.user.present? %>
+
+    <main class="<% unless params[:full_size] %> container mx-auto mt-8 lg:px-5 xl:w-2/3 lg:w-full sm:w-full px-10 mb-20 <% end %>">
+      <%= yield %>
+    </main>
+  </body>
+</html>
