@@ -65,7 +65,6 @@ gem "down", "~> 5.0"
 gem 'ranked-model'
 gem 'pagy'
 gem 'color', '~> 1.8'
-gem 'origami'
 gem 'pdf-reader'
 
 #search
