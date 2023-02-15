@@ -24,14 +24,19 @@ class Account < ApplicationRecord
     balance_at(to_date) - balance_at(from_date)
   end
 
-  def spent_between(from_date, to_date, spend: nil, to_currency: nil)
+  def spent_between(from_date, to_date, spend: nil, to_currency: nil, one_offs: true)
     _t = transactions.between(from_date, to_date).not_personal_transfer.where('amount < 0')
+    _t = _t.where.not(kind: :one_off) unless one_offs
     _t = _t.where(spend: spend) if spend
+
     sum_to_currency(_t.sum(:amount), to_currency: to_currency)
   end
 
-  def made_between(from_date, to_date, spend: nil, to_currency: nil)
+  def made_between(from_date, to_date, spend: nil, to_currency: nil, one_offs: true)
     _t = transactions.between(from_date,to_date).not_personal_transfer.where('amount > 0')
+    _t = _t.where.not(kind: :one_off) unless one_offs
+    _t = _t.where(spend: spend) if spend
+  
     sum_to_currency(_t.sum(:amount), to_currency: to_currency)
   end
 

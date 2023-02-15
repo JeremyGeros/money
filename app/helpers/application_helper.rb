@@ -76,6 +76,11 @@ module ApplicationHelper
       'web_services' => '🌐',
       'rent' => '🏠',
       'dairy' => '🥛',
+      'insurance' => '🏥',
+      'transfer' => '🔄',
+      'other' => '🤷',
+      'interest' => '💰',
+      'taxes' => '📃',
     }
 
     if spend.icon.attached?

@@ -21,6 +21,8 @@ class Transaction < ApplicationRecord
 
   after_commit :try_to_match_transfer
 
+  enum kind: { transaction: 0, one_off: 1, recurring: 2 }, _prefix: :kind
+
 
   def set_defaults
     self.currency ||= account.currency if account

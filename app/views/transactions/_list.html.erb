@@ -14,14 +14,22 @@
     <tbody>
       <% transactions.each do |transaction| %>
         <tr class='border-b border-zinc-200'>
-          <td class='break-all py-2 max-w-xl'><span class='mr-2'>
-            <% if transaction.transfer_transaction %>
-              <span class='line-through'>Personal Transfer <%= transaction.amount > 0 ? 'from' : 'to' %> <%= link_to transaction.transfer_transaction.account.name, account_path(transaction.transfer_transaction.account) %></span>
-            <% else %>
-              <%= display_spend_category(transaction.spend) %></span><%= link_to transaction.pretty_name, transaction_path(transaction) %></td>
-            <% end %>
+          <td class='break-all py-2 max-w-xl'>
+            <div class='flex items-center group'>
+              <span class='mr-2'><%= display_spend_category(transaction.spend) %></span>
+              <% if transaction.transfer_transaction %>
+                <span class='line-through flex items-center'>Personal Transfer <%= transaction.amount > 0 ? 'from' : 'to' %>  <%= image_tag transaction.account.logo, class: 'w-4 mr-0.5 ml-1' if transaction.account.logo.attached? %><%= link_to transaction.transfer_transaction.account.name, account_path(transaction.transfer_transaction.account), target: "_top" %></span>
+              <% else %>
+                <%= link_to transaction.pretty_name, transaction_path(transaction) %>
+              <% end %>
+
+              <%= link_to transaction_path(transaction), target: "_top" do %>
+                <%= edit_icon(3, 'ml-2 hidden text-gray-600 group-hover:block') %>
+              <% end %>
+            </div>
+          </td>
           <% if show_account %>
-            <td class='flex items-center py-2'><%= image_tag transaction.account.logo, class: 'w-4 mr-1' if transaction.account.logo.attached? %><%= link_to transaction.account.name, account_path(transaction.account) %></td>
+            <td class='flex items-center py-2'><%= image_tag transaction.account.logo, class: 'w-4 mr-1' if transaction.account.logo.attached? %><%= link_to transaction.account.name, account_path(transaction.account), target: "_top" %></td>
           <% end %>
           <td class='text-right'><%= display_amount_colored(transaction.amount, '', transaction.color_override) %></td>
           <td class='text-right'><%= pretty_date_display(transaction.made_at) %></td>

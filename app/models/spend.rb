@@ -14,28 +14,28 @@ class Spend < ApplicationRecord
     cafe: 0,
     restaurant: 1,
     supermarket: 2,
-    gas: 3,
+    utilities: 3,
     pharmacy: 4,
     clothing: 5,
     electronics: 6,
     home: 7,
     taxis: 8,
-    movies: 9,
-    water: 10,
-    power: 11,
-    internet: 12,
+    movie_tv: 9,
     salary: 13,
     payment: 14,
     books: 15,
-    tv: 16,
     web_services: 17,
     rent: 18,
-    dairy: 19,
     insurance: 20,
     baby: 21,
     gaming: 22,
+    interest: 23,
+    taxes: 24,
+    delivery_food: 25,
     other: 99,
+
     transfer: 100,
+    bank_fees: 101,
   }, prefix: true
 
   enum :spend_group, {
@@ -47,10 +47,10 @@ class Spend < ApplicationRecord
     entertainment: 5,
     online_services: 6,
     transport: 7,
-    insurance: 8,
     baby: 9,
     other: 99,
     transfer: 100,
+    bank_fees: 101,
   }, prefix: true
 
   def normalize_lookups

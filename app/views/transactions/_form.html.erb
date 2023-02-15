@@ -34,9 +34,14 @@
       <%= form.select :account_id, options_from_collection_for_select(Account.all, :id, :name, transaction.account_id), {}, class: 'text-input w-32' %>
     </div>
 
-    <div class=''>
+    <div class='mr-4'>
       <%= form.label :spend_id %>
       <%= form.select :spend_id, options_from_collection_for_select(Spend.all, :id, :name, transaction.spend_id), {include_blank: true}, class: 'text-input w-32' %>
+    </div>
+
+    <div class='mr-4'>
+      <%= form.label :kind %>
+      <%= form.select :kind, options_for_select(Transaction.kinds.keys, transaction.kind), {include_blank: true}, class: 'text-input w-32' %>
     </div>
   </div>
 

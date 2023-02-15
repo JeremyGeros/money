@@ -22,6 +22,15 @@
   <div class='flex border-b border-zinc-300 items-center pb-4 mb-4'>
     <h1 class='flex-1 text-2xl font-bold'>Totals</h1>
 
+    <div class='text-right mr-8'>
+      <h4 class='font-bold'>Accessible Balance</h4>
+      <%= only_mxn_balance %>
+    </div>
+    <div class='text-right mr-8'>
+      <h4 class='font-bold'>Total Balance</h4>
+      <%= total_mxn_balance %>
+    </div>
+
     <div class=''>
       <% last_6_months.each do |month_data| %>
         <%= link_to accounts_path(start_date: month_data[:start]), class: "border border-gray-300 border-r-0 last:border-r first:rounded-l last:rounded-r px-4 py-2 #{class_if(month_data[:start] >= @start_date, 'bg-sky-50 border-sky-200 text-sky-500')}" do %>
@@ -57,16 +66,33 @@
       <%= monthly_avg_net_between(@start_date, @end_date) %>
     </div>
 
-    <div class='col-span-3'></div>
+    
+    <h3 class='col-span-5 -mb-8'>Monthly's without one off transactions</h3>
+    <div class='text-center'>
+      <h4 class='flex items-center justify-center'><%= credit_card_icon(4, 'mr-1') %>Spent (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+      <%= spent_between(@start_date, @end_date, one_offs: false) %>
+    </div>
 
-    <div class='text-right'>
-      <h4 class='font-bold'>Accessible Balance</h4>
-      <%= only_mxn_balance %>
+    <div class='text-center'>
+      <h4 class='flex items-center justify-center'><%= bank_notes_icon(4, 'mr-1') %>Earned (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+      <%= made_between(@start_date, @end_date, one_offs: false) %>
     </div>
-    <div class='text-right'>
-      <h4 class='font-bold'>Total Balance</h4>
-      <%= total_mxn_balance %>
+
+    <div class='text-center'>
+      <h4 class='flex items-center justify-center'><%= up_down_arrows_icon(4, 'mr-1') %>Net (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+      <%= net_between(@start_date, @end_date, one_offs: false) %>
     </div>
+
+    <div class='text-center'>
+      <h4 class='flex items-center justify-center'>Monthly avg. spent (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+      <%= monthly_avg_spent_between(@start_date, @end_date, one_offs: false) %>
+    </div>
+
+    <div class='text-center'>
+      <h4 class='flex items-center justify-center'>Monthly avg. net (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+      <%= monthly_avg_net_between(@start_date, @end_date, one_offs: false) %>
+    </div>
+  
   </div>
 
   <div class='grid grid-cols-2 gap-6 mt-10'>
