@@ -18,12 +18,12 @@ module MoneyHelper
   end
 
   def spent_between(from_date, to_date, formatted: true)
-    @spent_between = Account.mxn.sum { |a| a.spent_between(from_date, to_date) }
+    @spent_between = Account.all.sum { |a| a.spent_between(from_date, to_date, to_currency: "MXN") }
     formatted ? display_amount_colored(@spent_between, 'MXN') : @spent_between
   end
 
   def made_between(from_date, to_date, formatted: true)
-    @made_between = Account.mxn.sum { |a| a.made_between(from_date, to_date) }
+    @made_between = Account.all.sum { |a| a.made_between(from_date, to_date, to_currency: "MXN") }
     formatted ? display_amount_colored(@made_between, 'MXN') : @made_between
   end
 
@@ -33,13 +33,13 @@ module MoneyHelper
   end
 
   def monthly_avg_spent_between(from_date, to_date, formatted: true, spend: nil)
-    @monthly_avg_spent_between = Account.mxn.sum { |a| a.spent_between(from_date, to_date, spend: spend) } / month_difference(from_date, to_date)
+    @monthly_avg_spent_between = Account.all.sum { |a| a.spent_between(from_date, to_date, spend: spend, to_currency: "MXN") } / month_difference(from_date, to_date)
 
     formatted ? display_amount_colored(@monthly_avg_spent_between, 'MXN') : @monthly_avg_spent_between
   end
 
   def monthly_avg_made_between(from_date, to_date, formatted: true)
-    @monthly_avg_made_between = Account.mxn.sum { |a| a.made_between(from_date, to_date) } / month_difference(from_date, to_date)
+    @monthly_avg_made_between = Account.all.sum { |a| a.made_between(from_date, to_date, to_currency: "MXN") } / month_difference(from_date, to_date)
     
     formatted ? display_amount_colored(@monthly_avg_made_between, 'MXN') : @monthly_avg_made_between
   end

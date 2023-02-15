@@ -142,6 +142,16 @@
         <%= area_chart Transaction.where(spend: Spend.where(name: 'Amazon')).between(@start_date, @end_date).group_by_month(:made_at).sum(:amount).map { |_d, amount| [_d, amount * -1] }, prefix: "$", suffix: " MXN", thousands: ",", precision: 2, colors: ["#f19d38"] %>
       </div>
     </div>
+
+
+    <div class='col-span-2'>
+      <div class='border border-gray-300 rounded p-4'>
+        <div class='flex items-center justify-between pb-2'>
+          <h4 class='font-bold'>Remaining spends (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+        </div>
+        <%= line_chart all_spends_chart_accounts_path(start_date: params[:start_date]), height: "500px", prefix: "$", suffix: " MXN", thousands: ",", precision: 2, legend: :bottom %>
+      </div>
+    </div>  
   </div>
 </div>
 

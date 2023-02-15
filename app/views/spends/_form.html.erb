@@ -41,5 +41,13 @@
     <%= text_field_tag 'spend[lookups][]', '', multiple: true, class: 'text-input w-full mb-2' %>
   </div>
 
-  <%= form.submit 'Update', class: 'btn btn-primary' %>
+
+  <div class='flex'>
+    <%= form.submit 'Update', class: 'btn btn-primary' %>
+    <div class='flex-1'></div>
+
+    <%= link_to 'Delete spend', spend_path(spend),  data: { "turbo-method": :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+  </div>
+
+
 <% end %>

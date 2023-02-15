@@ -35,10 +35,10 @@ module ApplicationHelper
     number_to_currency(amount)
   end
 
-  def display_amount_colored(amount, currency = '')
+  def display_amount_colored(amount, currency = '', color_override = nil)
     return '' unless amount
 
-    content_tag :span, class: amount < 0 ? 'text-red-500' : 'text-green-500' do
+    content_tag :span, class: color_override || (amount < 0 ? 'text-red-500' : 'text-green-500') do
       number_to_currency(amount) + " #{currency}"
     end
   end

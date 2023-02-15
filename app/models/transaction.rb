@@ -2,6 +2,8 @@ class Transaction < ApplicationRecord
   belongs_to :account
   belongs_to :spend, optional: true
 
+  belongs_to :transfer_transaction, class_name: 'Transaction', optional: true, foreign_key: :transfer_transaction_id
+
   before_validation :set_defaults, on: :create
 
 
@@ -11,9 +13,13 @@ class Transaction < ApplicationRecord
   validates :made_at, presence: true
 
   scope :between, ->(from_date, to_date) { where(made_at: from_date..to_date) }
-  scope :not_personal_transfer, -> { where(personal_transfer: false) }
+  scope :not_personal_transfer, -> { where(personal_transfer: false).where(transfer_transaction_id: nil) }
+  scope :personal_transfer, -> { where(personal_transfer: true)or(where.not(transfer_transaction_id: nil)) }
+  scope :has_spend, -> { where.not(spend: nil) }
 
   default_scope { where(ignored: false) }
+
+  after_commit :try_to_match_transfer
 
 
   def set_defaults
@@ -27,6 +33,40 @@ class Transaction < ApplicationRecord
     if self.spend&.ignored
       self.ignored = true
     end
+
+    if self.spend&.transfer?
+      self.personal_transfer = true
+    end
+  end
+
+  def try_to_match_transfer
+    return if self.transfer_transaction.present?
+
+    if personal_transfer
+      accounts_to_search = Account.where.not(id: account.id)
+      accounts_to_search.each do |to_account|
+        amount_to_search = Money.from_amount(amount, account.currency).exchange_to(to_account.currency).to_f * -1
+
+        # Search for a transaction in the other account that matches the amount and date with a tolerance of $200 and 1 week
+        matched = Transaction
+          .where(account: to_account)
+          .where(amount: (amount_to_search - 200.0)..(amount_to_search + 200.0))
+          .where(made_at: (made_at - 1.week)..(made_at + 1.week))
+          .where.not(id: id)
+          .where(transfer_transaction_id: nil)
+          .first
+        
+        if matched
+          Rails.logger.info "Matched transfer transaction #{id} for $#{amount} #{account.currency} with #{matched.id} for $#{matched.amount} #{to_account.currency}}"
+          self.transfer_transaction = matched
+          self.save!
+          matched.transfer_transaction = self
+          matched.personal_transfer = true
+          matched.save!
+          break
+        end
+      end
+    end
   end
 
   def pretty_name
@@ -35,6 +75,12 @@ class Transaction < ApplicationRecord
 
   def category
     spend&.icon || spend&.category
+  end
+
+  def color_override
+    if transfer_transaction
+      'text-sky-500'
+    end
   end
 
 

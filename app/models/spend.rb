@@ -35,6 +35,7 @@ class Spend < ApplicationRecord
     baby: 21,
     gaming: 22,
     other: 99,
+    transfer: 100,
   }, prefix: true
 
   enum :spend_group, {
@@ -49,6 +50,7 @@ class Spend < ApplicationRecord
     insurance: 8,
     baby: 9,
     other: 99,
+    transfer: 100,
   }, prefix: true
 
   def normalize_lookups
@@ -62,6 +64,10 @@ class Spend < ApplicationRecord
 
     if previous_changes["ignored"] && ignored
       transactions.update_all(ignored: ignored)
+    end
+
+    if previous_changes["category"] && category == "transfer"
+      transactions.update_all(personal_transfer: true)
     end
   end
 

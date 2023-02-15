@@ -5,13 +5,7 @@ class AccountsController < ApplicationController
   def index
     @accounts = Account.all
 
-    @start_date = params[:start_date] ? Date.parse(params[:start_date]) : (Date.today - 6.month).beginning_of_month
-    @end_date = (Date.today - 1.month).end_of_month
-  end
-
-  def transactions
-    @pagy, @transactions = pagy(Transaction.all.order(made_at: :desc, id: :desc).includes(account: {logo_attachment: :blob}, spend: {icon_attachment: :blob}))
-    render partial: 'transactions/list', locals: { transactions: @transactions, show_account: true }
+    get_dates
   end
 
   def show
@@ -54,7 +48,38 @@ class AccountsController < ApplicationController
     end
   end
 
+
+  def transactions
+    @pagy, @transactions = pagy(Transaction.all.order(made_at: :desc, id: :desc).includes(account: {logo_attachment: :blob}, spend: {icon_attachment: :blob}))
+    render partial: 'transactions/list', locals: { transactions: @transactions, show_account: true }
+  end
+
+  def all_spends_chart
+    get_dates
+
+    data = Spend.categories.keys.map do |category|
+      next nil if ['rent', 'other', 'cafe', 'restaurant', 'supermarket'].include?(category)
+
+      data = Transaction.where(spend: Spend.where(category: category)).between(@start_date, @end_date).where('amount < 0').group_by_month(:made_at).sum(:amount)
+
+      next nil if data.values.sum == 0
+
+      data.map do |d, amount|
+        data[d] = amount * -1
+      end
+
+      { name: category.titleize, data:  data}
+    end.compact
+
+    render json: data.chart_json
+  end
+
   private
+
+    def get_dates
+      @start_date = params[:start_date] ? Date.parse(params[:start_date]) : (Date.today - 6.month).beginning_of_month
+      @end_date = (Date.today - 1.month).end_of_month
+    end
 
     def set_account
       @account = Account.find(params[:id])
