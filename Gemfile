@@ -67,6 +67,13 @@ gem 'pagy'
 gem 'color', '~> 1.8'
 gem 'pdf-reader'
 
+# money
+gem 'eu_central_bank'
+gem 'money'
+
+gem "chartkick"
+gem "groupdate"
+
 #search
 gem "elasticsearch-model"
 

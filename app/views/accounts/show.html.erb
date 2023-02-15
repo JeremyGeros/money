@@ -2,17 +2,23 @@
   <div class='flex-1'>
   </div>
 
-  <%= link_to 'Import', imports_path(import: {account_id: @account.id}) %>
+  <%= link_to 'Import', imports_path(account_id: @account.id) %>
   <%= link_to 'Edit', edit_account_path(@account) %>
 </div>
 
 <div class='flex border-b border-zinc-300 items-center pb-4 mb-4'>
-  <h1 class='flex-1 text-2xl font-bold'><%= @account.name %></h1>
+  <div class='flex-1'>
+    <h1 class='text-2xl font-bold'><%= @account.name %></h1>
+
+    <p class='text-sm mt-2'><%= @transactions.count %> transactions</p>
+  </div>
 
   <div class='text-right'>
     <h2 class='text-green-500 text-xl '><%= display_account_balance(@account) %></h2>
     <h4 class='mt-1 text-sm flex items-center justify-end'><%= up_down_arrows_icon(4, 'mr-1') %><span class='mr-2'>(<%= 1.month.ago.strftime("%b") %>)</span> <%= display_amount_colored(@account.balance_change(1.month.ago.beginning_of_month, 1.month.ago.end_of_month)) %>
+    <h4 class='mt-1 text-sm flex items-center justify-end'><%= credit_card_icon(4, 'mr-1') %><span class='mr-2'>Spent</span> <%= display_amount_colored(@account.spent_between(1.month.ago.beginning_of_month, 1.month.ago.end_of_month)) %>
+    <h4 class='mt-1 text-sm flex items-center justify-end'><%= bank_notes_icon(4, 'mr-1') %><span class='mr-2'>Earned</span> <%= display_amount_colored(@account.made_between(1.month.ago.beginning_of_month, 1.month.ago.end_of_month)) %>
   </div>
 </div>
 
-<%= render 'transactions/list', transactions: @transactions %>
+<%= render 'transactions/list', transactions: @transactions, show_account: false %>

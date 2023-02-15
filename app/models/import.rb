@@ -1,4 +1,5 @@
 require 'pdf-reader'
+require 'csv'
 
 class Import < ApplicationRecord
   belongs_to :account
@@ -29,6 +30,10 @@ class Import < ApplicationRecord
       banorte_parse
     when 'fondeadora'
       fondeadora_parse
+    when 'bnz_nz'
+      bnz_nz_parse
+    when 'bnz_usd'
+      bnz_usd_parse
     else
       []
     end
@@ -43,8 +48,7 @@ class Import < ApplicationRecord
         details: row[:details],
         amount: row[:amount],
         balance: row[:balance],
-        name: row[:name],
-        rfc: row[:rfc],
+        name: transaction.name || row[:name],
       )
 
       transactions_imported += 1
@@ -90,7 +94,6 @@ class Import < ApplicationRecord
             amount: amount_debit_or_credit(date_row.captures[2].strip.gsub(',', '').to_f, details),
             balance: date_row.captures[3].strip.gsub(',', '').to_f,
             name: details.split('RFC:').first,
-            rfc: details.split('RFC:').last,
           }
 
           last_valid_row = trans
@@ -101,7 +104,6 @@ class Import < ApplicationRecord
         if row.start_with?(/\s{11}\w/)
           last_valid_row[:details] += row.strip
           last_valid_row[:name] = last_valid_row[:details].split('RFC:').first
-          last_valid_row[:rfc] = last_valid_row[:details].split('RFC:').last
         end
       end
     end
@@ -139,6 +141,49 @@ class Import < ApplicationRecord
     transaction_rows
   end
 
+  def bnz_nz_parse
+    transaction_rows = []
+
+    CSV.parse(self.file.download, headers: true).map do |row|
+      transaction_rows << {
+        date: Date.strptime(row['Date'], "%d/%m/%y"),
+        details: row['Payee'],
+        amount: row['Amount'].to_f,
+        name: row['Payee'],
+      }
+    end
+
+    transaction_rows
+  end
+
+  def bnz_usd_parse
+    transaction_rows = []
+
+    pdf_reader.pages.each_with_index do |page, index|
+
+      rows = page.text.split("\n")
+
+      rows.each do |row|
+        next if row.empty?
+
+        date_row = row.match(/(\d\d\s\w\w\w)\s+?\d\d\s\w\w\w\s+?(\w.+?)\s\s\s\s\s\s{10,}(\d\S+)/)
+        if date_row&.captures.try(:[], 0)&.present?
+          details = date_row.captures[1].strip
+
+          trans = {
+            date: Date.parse(to_english_date(date_row.captures[0].strip)),
+            details: details,
+            amount: amount_debit_or_credit(date_row.captures[2].strip.gsub("$", '').gsub(',', '').to_f, details),
+            name: details,
+          }
+          transaction_rows << trans
+        end
+      end
+    end
+
+    transaction_rows
+  end
+
   def to_english_date(date)
     date.gsub(/ENE/i, 'Jan')
         .gsub(/FEB/i, 'Feb')
@@ -155,7 +200,7 @@ class Import < ApplicationRecord
   end
 
   def amount_debit_or_credit(amount, details)
-    if details.include?('SPEI RECIBIDO')
+    if details.include?('SPEI RECIBIDO') || details.include?("INTEREST") || details.include?("REBATE OF FEE")
       amount 
     else
       amount * -1

@@ -100,6 +100,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    chartkick (5.0.1)
     color (1.8)
     concurrent-ruby (1.2.0)
     connection_pool (2.3.0)
@@ -125,6 +126,9 @@ GEM
       faraday (~> 1)
       multi_json
     erubi (1.12.0)
+    eu_central_bank (1.7.0)
+      money (~> 6.13, >= 6.13.6)
+      nokogiri (~> 1.9)
     faraday (1.10.3)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -156,6 +160,8 @@ GEM
       activesupport (>= 5.0)
     google-protobuf (3.21.12-x86_64-darwin)
     google-protobuf (3.21.12-x86_64-linux)
+    groupdate (6.2.0)
+      activesupport (>= 5.2)
     hashery (2.1.2)
     hashie (5.0.0)
     http (5.1.0)
@@ -201,6 +207,8 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.2)
     minitest (5.17.0)
+    money (6.16.0)
+      i18n (>= 0.6.4, <= 2)
     msgpack (1.6.0)
     multi_json (1.15.0)
     multipart-post (2.3.0)
@@ -338,15 +346,19 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap
   capybara
+  chartkick
   color (~> 1.8)
   debug
   down (~> 5.0)
   elasticsearch-model
+  eu_central_bank
+  groupdate
   http
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
   kredis
+  money
   pagy
   pdf-reader
   pg (~> 1.1)

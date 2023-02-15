@@ -1,0 +1,15 @@
+<div class='mt-10'>
+  <div class='flex border-b border-zinc-300 items-center pb-4 mb-4'>
+    <div class='flex-1'>
+      <h1 class='flex-1 text-2xl font-bold'>Transactions</h1>
+      <p class='text-sm mt-2'><%= @transactions.count %> transactions</p>
+    </div>
+
+    <% if params[:without_spend] %>
+      <%= link_to 'All Transactions', transactions_path, class: 'btn btn-link' %>
+    <% else %>
+      <%= link_to 'Uncatergorized Transactions', transactions_path(without_spend: true), class: 'btn btn-link' %>
+    <% end %>
+  </div>
+  <%= render 'transactions/list', transactions: @transactions, show_account: true %>
+</div>

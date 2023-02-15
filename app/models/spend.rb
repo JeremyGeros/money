@@ -8,6 +8,8 @@ class Spend < ApplicationRecord
   after_save :match_existing_transactions!
   before_validation :normalize_lookups
 
+  after_commit :update_transactions
+
   enum :category, {
     cafe: 0,
     restaurant: 1,
@@ -53,6 +55,16 @@ class Spend < ApplicationRecord
     self.lookups = lookups.map(&:strip).compact.reject(&:blank?).uniq
   end
 
+  def update_transactions
+    if previous_changes["always_positive"] && always_positive
+      transactions.update_all(amount: Arel.sql('ABS(amount)'))
+    end
+
+    if previous_changes["ignored"] && ignored
+      transactions.update_all(ignored: ignored)
+    end
+  end
+
   def self.match_by_details(transaction, spends = nil)
     (spends || Spend.all).each do |spend|
       spend.lookups.each do |lookup|
@@ -65,11 +77,21 @@ class Spend < ApplicationRecord
     nil
   end
 
+
   def match_existing_transactions!
     @spends = Spend.all
     Transaction.where(spend: nil).each do |transaction|
       if (spend = Spend.match_by_details(transaction, @spends))
         transaction.spend = spend
+        
+        if spend.always_positive
+          transaction.amount = transaction.amount.abs
+        end
+
+        if spend.ignored
+          transaction.ignore = true
+        end
+
         transaction.save!
       end
     end

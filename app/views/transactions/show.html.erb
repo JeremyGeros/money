@@ -14,12 +14,17 @@
     <%= form.text_field :name, class: 'text-input w-full' %>
   </div>
 
-  <div class='mb-4'>
-    <%= form.label :rfc %>
-    <%= form.text_field :rfc, class: 'text-input w-full' %>
-  </div>
-
   <div class='mb-4 flex items-center'>
+    <div class='mr-4'>
+      <%= form.label :personal_transfer %>
+      <%= form.check_box :personal_transfer, class: 'text-input' %>
+    </div>
+
+    <div class='mr-4'>
+      <%= form.label :ignored %>
+      <%= form.check_box :ignored, class: 'text-input' %>
+    </div>
+
     <div class='mr-4'>
       <%= form.label :amount %>
       <%= form.text_field :amount, class: 'text-input' %>

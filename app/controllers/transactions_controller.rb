@@ -3,7 +3,11 @@ class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
 
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.all.order(made_at: :desc, id: :desc)
+
+    if params[:without_spend]
+      @transactions = @transactions.where(spend_id: nil)
+    end
   end
 
   def show
@@ -52,7 +56,7 @@ class TransactionsController < ApplicationController
     end
 
     def transaction_params
-      params.require(:transaction).permit(:name, :details, :amount, :balance, :made_at, :account_id, :rfc, :spend_id)
+      params.require(:transaction).permit(:name, :details, :amount, :balance, :made_at, :account_id, :spend_id, :personal_transfer)
     end
 
 

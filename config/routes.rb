@@ -4,6 +4,9 @@ require 'admin_constraint'
 Rails.application.routes.draw do
 
   resources :accounts do
+    collection do
+      get 'transactions'
+    end
   end
 
   resources :transactions do

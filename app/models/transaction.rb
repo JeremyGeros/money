@@ -10,6 +10,11 @@ class Transaction < ApplicationRecord
   validates :currency, presence: true
   validates :made_at, presence: true
 
+  scope :between, ->(from_date, to_date) { where(made_at: from_date..to_date) }
+  scope :not_personal_transfer, -> { where(personal_transfer: false) }
+
+  default_scope { where(ignored: false) }
+
 
   def set_defaults
     self.currency ||= account.currency if account
@@ -17,6 +22,10 @@ class Transaction < ApplicationRecord
 
     if self.spend&.always_positive
       self.amount = self.amount.abs
+    end
+
+    if self.spend&.ignored
+      self.ignored = true
     end
   end
 

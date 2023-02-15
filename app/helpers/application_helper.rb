@@ -35,11 +35,11 @@ module ApplicationHelper
     number_to_currency(amount)
   end
 
-  def display_amount_colored(amount)
+  def display_amount_colored(amount, currency = '')
     return '' unless amount
 
     content_tag :span, class: amount < 0 ? 'text-red-500' : 'text-green-500' do
-      number_to_currency(amount)
+      number_to_currency(amount) + " #{currency}"
     end
   end
 

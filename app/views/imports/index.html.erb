@@ -14,7 +14,7 @@
 
     <div class='mt-4'>
       <%= form.label :account_id, 'Account' %>
-      <%= form.select :account_id, options_from_collection_for_select(Account.all, :id, :name) %>
+      <%= form.select :account_id, options_from_collection_for_select(Account.all, :id, :name, @import.account_id) %>
     </div>
 
     <%= form.submit 'Import', class: 'btn btn-primary mt-6' %>

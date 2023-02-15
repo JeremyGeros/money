@@ -1,7 +1,9 @@
 class ImportsController < ApplicationController
 
   def index    
-    @import = Import.new(params[:import].permit(:account_id))
+    @account = Account.find_by(id: params[:account_id]) if params[:account_id]
+
+    @import = Import.new(account: @account)
     @previous_imports = Import.all.order(created_at: :desc)
   end
 

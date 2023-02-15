@@ -4,10 +4,18 @@ class AccountsController < ApplicationController
 
   def index
     @accounts = Account.all
+
+    @start_date = params[:start_date] ? Date.parse(params[:start_date]) : (Date.today - 6.month).beginning_of_month
+    @end_date = (Date.today - 1.month).end_of_month
+  end
+
+  def transactions
+    @pagy, @transactions = pagy(Transaction.all.order(made_at: :desc, id: :desc).includes(account: {logo_attachment: :blob}, spend: {icon_attachment: :blob}))
+    render partial: 'transactions/list', locals: { transactions: @transactions, show_account: true }
   end
 
   def show
-    @transactions = @account.transactions.order(made_at: :desc, id: :desc)
+    @transactions = @account.transactions.order(made_at: :desc, id: :desc).includes(spend: {icon_attachment: :blob})
   end
 
   def new
