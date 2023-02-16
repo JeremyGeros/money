@@ -33,6 +33,7 @@ class Spend < ApplicationRecord
     taxes: 24,
     delivery_food: 25,
     bus: 26,
+    health: 27,
     other: 99,
 
     transfer: 100,
@@ -48,6 +49,7 @@ class Spend < ApplicationRecord
     entertainment: 5,
     online_services: 6,
     transport: 7,
+    health: 8,
     baby: 9,
     other: 99,
     transfer: 100,
