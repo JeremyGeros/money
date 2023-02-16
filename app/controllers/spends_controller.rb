@@ -52,7 +52,7 @@ class SpendsController < ApplicationController
     end
 
     def spend_params
-      params.require(:spend).permit(:name, :category, :spend_group, :always_positive, :icon, :ignored, lookups: [])
+      params.require(:spend).permit(:name, :category, :spend_group, :always_positive, :icon, :ignored, :kind, lookups: [])
     end
 
 

@@ -70,29 +70,38 @@
     <h3 class='col-span-5 -mb-8'>Monthly's without one off transactions</h3>
     <div class='text-center'>
       <h4 class='flex items-center justify-center'><%= credit_card_icon(4, 'mr-1') %>Spent (<%= dates_range_display(@start_date, @end_date) %>)</h4>
-      <%= spent_between(@start_date, @end_date, one_offs: false) %>
+      <%= spent_between(@start_date, @end_date, kinds: Transaction.kinds.keys - ['one_off']) %>
     </div>
 
     <div class='text-center'>
       <h4 class='flex items-center justify-center'><%= bank_notes_icon(4, 'mr-1') %>Earned (<%= dates_range_display(@start_date, @end_date) %>)</h4>
-      <%= made_between(@start_date, @end_date, one_offs: false) %>
+      <%= made_between(@start_date, @end_date, kinds: Transaction.kinds.keys - ['one_off']) %>
     </div>
 
     <div class='text-center'>
       <h4 class='flex items-center justify-center'><%= up_down_arrows_icon(4, 'mr-1') %>Net (<%= dates_range_display(@start_date, @end_date) %>)</h4>
-      <%= net_between(@start_date, @end_date, one_offs: false) %>
+      <%= net_between(@start_date, @end_date, kinds: Transaction.kinds.keys - ['one_off']) %>
     </div>
 
     <div class='text-center'>
       <h4 class='flex items-center justify-center'>Monthly avg. spent (<%= dates_range_display(@start_date, @end_date) %>)</h4>
-      <%= monthly_avg_spent_between(@start_date, @end_date, one_offs: false) %>
+      <%= monthly_avg_spent_between(@start_date, @end_date, kinds: Transaction.kinds.keys - ['one_off']) %>
     </div>
 
     <div class='text-center'>
       <h4 class='flex items-center justify-center'>Monthly avg. net (<%= dates_range_display(@start_date, @end_date) %>)</h4>
-      <%= monthly_avg_net_between(@start_date, @end_date, one_offs: false) %>
+      <%= monthly_avg_net_between(@start_date, @end_date, kinds: Transaction.kinds.keys - ['one_off']) %>
     </div>
-  
+
+    <div class='text-center'>
+      <h4 class='flex items-center justify-center'><%= credit_card_icon(4, 'mr-1') %>Recurring Spend (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+      <%= spent_between(@start_date, @end_date, kinds: ['recurring']) %>
+    </div>
+
+    <div class='text-center'>
+      <h4 class='flex items-center justify-center'>Recurring Monthly avg. (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+      <%= monthly_avg_spent_between(@start_date, @end_date, kinds: ['recurring']) %>
+    </div>
   </div>
 
   <div class='grid grid-cols-2 gap-6 mt-10'>

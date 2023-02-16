@@ -29,6 +29,11 @@
       <%= form.label :ignored %>
       <%= form.check_box :ignored, class: 'text-input' %>
     </div>
+
+    <div class='mr-4'>
+      <%= form.label :kind %>
+      <%= form.select :kind, options_for_select(Spend.kinds.keys, spend.kind), {include_blank: true}, class: 'text-input w-32' %>
+    </div>
     
   </div>
 

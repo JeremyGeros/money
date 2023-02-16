@@ -56,6 +56,8 @@ class Spend < ApplicationRecord
     bank_fees: 101,
   }, prefix: true
 
+  enum kind: { transaction: 0, one_off: 1, recurring: 2 }, _prefix: :kind
+
   def normalize_lookups
     self.lookups = lookups.map(&:strip).compact.reject(&:blank?).uniq
   end
@@ -71,6 +73,16 @@ class Spend < ApplicationRecord
 
     if previous_changes["category"] && category == "transfer"
       transactions.update_all(personal_transfer: true)
+    end
+
+    if previous_changes["kind"]
+      if kind == "one_off"
+        transactions.update_all(kind: "one_off")
+      elsif kind == "recurring"
+        transactions.update_all(kind: "recurring")
+      elsif kind == "transaction"
+        transactions.update_all(kind: "transaction")
+      end
     end
   end
 
@@ -103,6 +115,12 @@ class Spend < ApplicationRecord
 
         if spend.ignored
           transaction.ignored = true
+        end
+
+        if spend.kind == "one_off"
+          transaction.kind = "one_off"
+        elsif spend.kind == "recurring"
+          transaction.kind = "recurring"
         end
 
         transaction.save!
