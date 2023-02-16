@@ -99,7 +99,7 @@ class Spend < ApplicationRecord
         end
 
         if spend.ignored
-          transaction.ignore = true
+          transaction.ignored = true
         end
 
         transaction.save!
