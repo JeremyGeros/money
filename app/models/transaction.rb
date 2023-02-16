@@ -47,7 +47,7 @@ class Transaction < ApplicationRecord
     if self.transfer_transaction.present?
       if transfer_transaction.transfer_transaction_id != self.id
         transfer_transaction.transfer_transaction = self
-        matched.personal_transfer = true
+        transfer_transaction.personal_transfer = true
         transfer_transaction.save!
       end
     elsif personal_transfer
