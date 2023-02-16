@@ -3,7 +3,7 @@ class SpendsController < ApplicationController
   before_action :set_spend, only: [:show, :edit, :update, :destroy]
 
   def index
-    @spends = Spend.all
+    @spends = Spend.all.order(:name)
   end
 
   def show
