@@ -32,6 +32,7 @@ class Spend < ApplicationRecord
     interest: 23,
     taxes: 24,
     delivery_food: 25,
+    bus: 26,
     other: 99,
 
     transfer: 100,
