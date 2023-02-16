@@ -52,7 +52,7 @@ class TransactionsController < ApplicationController
   private
 
     def set_transaction
-      @transaction = Transaction.find(params[:id])
+      @transaction = Transaction.unscoped.find(params[:id])
     end
 
     def transaction_params

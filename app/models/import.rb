@@ -125,9 +125,13 @@ class Import < ApplicationRecord
         date_row = row.match(/^ (\w\w\w\s\d\d)(.+?\s\s\s)(\-?\$\d.+)/)
         if date_row&.captures.try(:[], 0)&.present?
           details = date_row.captures[1].strip.gsub("\u0000", '')
+          date = Date.parse(to_english_date(date_row.captures[0].strip))
+          if date > Date.today
+            date = date - 1.year
+          end
 
           trans = {
-            date: Date.parse(to_english_date(date_row.captures[0].strip)),
+            date: date,
             details: details,
             amount: date_row.captures[2].strip.gsub("$", '').gsub(',', '').to_f,
             name: details,
@@ -169,9 +173,13 @@ class Import < ApplicationRecord
         date_row = row.match(/(\d\d\s\w\w\w)\s+?\d\d\s\w\w\w\s+?(\w.+?)\s\s\s\s\s\s{10,}(\d\S+)/)
         if date_row&.captures.try(:[], 0)&.present?
           details = date_row.captures[1].strip.gsub("\u0000", '')
+          date = Date.parse(to_english_date(date_row.captures[0].strip))
+          if date > Date.today
+            date = date - 1.year
+          end
 
           trans = {
-            date: Date.parse(to_english_date(date_row.captures[0].strip)),
+            date: date,
             details: details,
             amount: amount_debit_or_credit(date_row.captures[2].strip.gsub("$", '').gsub(',', '').to_f, details),
             name: details,

@@ -19,7 +19,8 @@ class ImportsController < ApplicationController
     if @import.import!
       redirect_to import_path(@import)
     else
-      redirect_to imports_path
+      @previous_imports = Import.all.order(created_at: :desc)
+      render :index
     end
   end
 
