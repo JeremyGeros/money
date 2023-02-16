@@ -18,13 +18,13 @@
             <div class='flex items-center group'>
               <span class='mr-2'><%= display_spend_category(transaction.spend) %></span>
               <% if transaction.transfer_transaction %>
-                <span class='line-through flex items-center'>Personal Transfer <%= transaction.amount > 0 ? 'from' : 'to' %>  <%= image_tag transaction.account.logo, class: 'w-4 mr-0.5 ml-1' if transaction.account.logo.attached? %><%= link_to transaction.transfer_transaction.account.name, account_path(transaction.transfer_transaction.account), target: "_top" %></span>
+                <span class='flex items-center text-sky-500'>Personal Transfer <%= transaction.amount > 0 ? 'from' : 'to' %>  <%= image_tag transaction.account.logo, class: 'w-4 mr-0.5 ml-2' if transaction.account.logo.attached? %><%= link_to transaction.transfer_transaction.account.name, account_path(transaction.transfer_transaction.account), target: "_top" %></span>
               <% else %>
-                <%= link_to transaction.pretty_name, transaction_path(transaction) %>
+                <span class='<%= class_if(transaction.ignored, 'line-through') %>'><%= link_to transaction.pretty_name, transaction_path(transaction) %></span>
               <% end %>
 
               <%= link_to transaction_path(transaction), target: "_top" do %>
-                <%= edit_icon(3, 'ml-2 hidden text-gray-600 group-hover:block') %>
+                <%= edit_icon(3, 'ml-2 invisible text-gray-600 group-hover:visible') %>
               <% end %>
             </div>
           </td>

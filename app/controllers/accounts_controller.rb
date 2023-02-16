@@ -9,7 +9,9 @@ class AccountsController < ApplicationController
   end
 
   def show
-    @transactions = @account.transactions.order(made_at: :desc, id: :desc).includes(spend: {icon_attachment: :blob})
+    Transaction.unscoped do
+      @transactions = @account.transactions.order(made_at: :desc, id: :desc).includes(spend: {icon_attachment: :blob})
+    end
   end
 
   def new

@@ -8,4 +8,6 @@
 </div>
 
 <h2>Transactions</h2>
-<%= render 'transactions/list', transactions: @spend.transactions, show_account: true %>
+<% Transaction.unscoped do %>
+  <%= render 'transactions/list', transactions: @spend.transactions, show_account: true %>
+<% end %>
