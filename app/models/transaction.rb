@@ -41,10 +41,16 @@ class Transaction < ApplicationRecord
     end
   end
 
-  def try_to_match_transfer
-    return if self.transfer_transaction.present?
 
-    if personal_transfer
+
+  def try_to_match_transfer
+    if self.transfer_transaction.present?
+      if transfer_transaction.transfer_transaction_id != self.id
+        transfer_transaction.transfer_transaction = self
+        matched.personal_transfer = true
+        transfer_transaction.save!
+      end
+    elsif personal_transfer
       accounts_to_search = Account.where.not(id: account.id)
       accounts_to_search.each do |to_account|
         amount_to_search = Money.from_amount(amount, account.currency).exchange_to(to_account.currency).to_f * -1
