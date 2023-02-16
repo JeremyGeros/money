@@ -54,7 +54,7 @@
           <p>Matched to <%= link_to "#{transaction.transfer_transaction.name} - #{transaction.transfer_transaction.account.name}", transaction_path(transaction.transfer_transaction) %></p>
         <% end %>
 
-        <%= form.select :transfer_transaction_id, options_from_collection_for_select(Transaction.personal_transfer.where(transfer_transaction_id: nil), :id, :name, transaction.transfer_transaction_id), {include_blank: true}, class: 'text-input w-32' %>
+        <%= form.select :transfer_transaction_id, options_from_collection_for_select(Transaction.personal_transfer.where(transfer_transaction_id: nil).where.not(id: transaction.id), :id, :name, transaction.transfer_transaction_id), {include_blank: true}, class: 'text-input w-32' %>
       </div>
     </div>
   <% end %>
