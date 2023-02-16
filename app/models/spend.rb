@@ -71,6 +71,10 @@ class Spend < ApplicationRecord
     end
   end
 
+  def transfer?
+    category == "transfer"
+  end
+
   def self.match_by_details(transaction, spends = nil)
     (spends || Spend.all).each do |spend|
       spend.lookups.each do |lookup|

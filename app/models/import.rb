@@ -86,7 +86,7 @@ class Import < ApplicationRecord
 
         date_row = row.match(/^ (\d\d\-\w\w\w\-\d\d)(.+?\s\s\s)(\d.+?\s\s\s)(\d.+)/)
         if date_row&.captures.try(:[], 0)&.present?
-          details = date_row.captures[1].strip
+          details = date_row.captures[1].strip.gsub("\u0000", '')
 
           trans = {
             date: Date.parse(to_english_date(date_row.captures[0].strip)),
@@ -124,7 +124,7 @@ class Import < ApplicationRecord
 
         date_row = row.match(/^ (\w\w\w\s\d\d)(.+?\s\s\s)(\-?\$\d.+)/)
         if date_row&.captures.try(:[], 0)&.present?
-          details = date_row.captures[1].strip
+          details = date_row.captures[1].strip.gsub("\u0000", '')
 
           trans = {
             date: Date.parse(to_english_date(date_row.captures[0].strip)),
@@ -147,7 +147,7 @@ class Import < ApplicationRecord
     CSV.parse(self.file.download, headers: true).map do |row|
       transaction_rows << {
         date: Date.strptime(row['Date'], "%d/%m/%y"),
-        details: row['Payee'],
+        details: row['Payee'].gsub("\u0000", ''),
         amount: row['Amount'].to_f,
         name: row['Payee'],
       }
@@ -168,7 +168,7 @@ class Import < ApplicationRecord
 
         date_row = row.match(/(\d\d\s\w\w\w)\s+?\d\d\s\w\w\w\s+?(\w.+?)\s\s\s\s\s\s{10,}(\d\S+)/)
         if date_row&.captures.try(:[], 0)&.present?
-          details = date_row.captures[1].strip
+          details = date_row.captures[1].strip.gsub("\u0000", '')
 
           trans = {
             date: Date.parse(to_english_date(date_row.captures[0].strip)),

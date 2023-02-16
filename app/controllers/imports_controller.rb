@@ -19,7 +19,7 @@ class ImportsController < ApplicationController
     if @import.import!
       redirect_to import_path(@import)
     else
-      render :index
+      redirect_to imports_path
     end
   end
 
