@@ -46,7 +46,9 @@
     <%= form.submit 'Update', class: 'btn btn-primary' %>
     <div class='flex-1'></div>
 
-    <%= link_to 'Delete spend', spend_path(spend),  data: { "turbo-method": :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    <% if spend.persisted? %>
+      <%= link_to 'Delete spend', spend_path(spend),  data: { "turbo-method": :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    <% end %>
   </div>
 
 
