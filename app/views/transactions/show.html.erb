@@ -1,6 +1,6 @@
 <h1 class='break-all'>Transaction: <%= @transaction.name %></h1>
 
-<%= link_to 'Back to transactions', account_path(@transaction.account), class: 'btn btn-link mb-6' %>
+<%= link_to 'Back to transactions', account_path(@transaction.account, anchor: "transaction_#{@transaction.id}"), class: 'btn btn-link mb-6' %>
 
 <%= render 'transactions/form', transaction: @transaction %>
 
