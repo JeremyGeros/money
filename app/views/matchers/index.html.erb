@@ -1,0 +1,28 @@
+<div class='flex border-b border-zinc-300 pb-4 mb-4'>
+  <h1 class='text-2xl flex-1'>Matchers</h1>
+
+  <%= link_to 'New Matcher', new_matcher_path %>
+</div>
+
+<table class='table-fixed w-full'>
+  <thead class='font-bold'>
+    <tr>
+      <td>Regex</td>
+      <td>Replacer</td>
+      <td>Account</td>
+      <td>Enabled</td>
+      <td>Transaction count</td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @matchers.each do |matcher| %>
+      <tr>
+        <td><%= link_to matcher.match_regex, matcher_path(matcher) %></td>
+        <td><%= matcher.replacer %></td>
+        <td><%= account_display(matcher.account) %></td>
+        <td><%= matcher.enabled_at %></td>
+        <td><%= matcher.transactions.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

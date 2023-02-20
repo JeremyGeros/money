@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  account: one
+  match_regex: MyString
+  replacer: MyString
+  enabled_at: 2023-02-20 10:42:16
+
+two:
+  account: two
+  match_regex: MyString
+  replacer: MyString
+  enabled_at: 2023-02-20 10:42:16

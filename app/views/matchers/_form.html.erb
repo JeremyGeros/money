@@ -1,0 +1,35 @@
+<%= form_with(model: matcher, local: true, html: { autocomplete: "off", class: 'w-full'}) do |form| %>
+  <div class='mb-4'>
+    <%= form.label :match_regex, 'Matcher regex (used like gsub(/#{match_regex}i/))' %>
+    <%= form.text_field :match_regex, class: 'text-input w-full' %>
+  </div>
+
+  <div class='mb-4'>
+    <%= form.label :replacer %>
+    <%= form.text_field :replacer, class: 'text-input w-full' %>
+  </div>
+
+  <div class='mb-4 flex items-center'>
+    <div class='mr-4'>
+      <%= form.label :account_id %>
+      <%= form.select :account_id, options_from_collection_for_select(Account.all, :id, :name, matcher.account_id), {}, class: 'text-input w-32' %>
+    </div>
+
+    <div class='mr-4'>
+      <%= form.label :enabled %>
+      <%= form.check_box :enabled, class: 'text-input' %>
+    </div>
+  </div>
+
+
+  <div class='flex'>
+    <%= form.submit 'Update', class: 'btn btn-primary' %>
+    <div class='flex-1'></div>
+
+    <% if matcher.persisted? %>
+      <%= link_to 'Delete Matcher', spend_path(matcher),  data: { "turbo-method": :delete, turbo_confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    <% end %>
+  </div>
+
+
+<% end %>
