@@ -13,9 +13,9 @@
     <p class='text-sm mt-2'><%= @transactions.count %> transactions</p>
     <p class='text-sm mt-2'>
       <% if params[:without_spend] %>
-        <%= link_to 'All Transactions', transactions_path, class: 'btn btn-link' %>
+        <%= link_to 'All Transactions', account_path(@account), class: 'btn btn-link' %>
       <% else %>
-        <%= link_to 'Uncatergorized Transactions', transactions_path(without_spend: true), class: 'btn btn-link' %>
+        <%= link_to 'Uncatergorized Transactions', account_path(@account, without_spend: true), class: 'btn btn-link' %>
       <% end %>
     </p>
   </div>
