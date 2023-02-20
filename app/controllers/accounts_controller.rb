@@ -12,7 +12,7 @@ class AccountsController < ApplicationController
     Transaction.unscoped do
       @transactions = @account.transactions.order(made_at: :desc, id: :desc).includes(spend: {icon_attachment: :blob})
       if params[:without_spend]
-        @transactions = @transactions.where(spend_id: nil)
+        @transactions = @transactions.where(spend_id: nil).where(transfer_transaction_id: nil)
       end
     end
   end

@@ -6,7 +6,7 @@ class TransactionsController < ApplicationController
     @transactions = Transaction.all.order(made_at: :desc, id: :desc)
 
     if params[:without_spend]
-      @transactions = @transactions.where(spend_id: nil)
+      @transactions = @transactions.where(spend_id: nil).where(transfer_transaction_id: nil)
     end
   end
 
