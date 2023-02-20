@@ -11,6 +11,13 @@
     <h1 class='text-2xl font-bold'><%= @account.name %></h1>
 
     <p class='text-sm mt-2'><%= @transactions.count %> transactions</p>
+    <p class='text-sm mt-2'>
+      <% if params[:without_spend] %>
+        <%= link_to 'All Transactions', transactions_path, class: 'btn btn-link' %>
+      <% else %>
+        <%= link_to 'Uncatergorized Transactions', transactions_path(without_spend: true), class: 'btn btn-link' %>
+      <% end %>
+    </p>
   </div>
 
   <div class='text-right'>
