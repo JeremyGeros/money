@@ -34,6 +34,7 @@ class Spend < ApplicationRecord
     delivery_food: 25,
     bus: 26,
     health: 27,
+    travel: 28,
     other: 99,
 
     transfer: 100,
@@ -51,6 +52,7 @@ class Spend < ApplicationRecord
     transport: 7,
     health: 8,
     baby: 9,
+    travel: 10,
     other: 99,
     transfer: 100,
     bank_fees: 101,

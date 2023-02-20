@@ -81,6 +81,8 @@ module ApplicationHelper
       'other' => '🤷',
       'interest' => '💰',
       'taxes' => '📃',
+      'travel' => '✈️',
+      'delivery_food' => '🍕',
     }
 
     if spend.icon.attached?
