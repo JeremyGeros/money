@@ -90,5 +90,12 @@ module ApplicationHelper
     end
   end
 
- 
+  def account_display(account)
+    content_tag :div, class: 'flex items-center' do
+      account.logo.attached? ? image_tag(account.logo, class: 'w-4 mr-1') : ''
+      +
+      link_to(account.name, account_path(account), target: "_top")
+    end
+  end
+
 end

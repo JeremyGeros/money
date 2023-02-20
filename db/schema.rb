@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_16_154221) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_20_164240) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -72,6 +72,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_154221) do
     t.index ["account_id"], name: "index_imports_on_account_id"
   end
 
+  create_table "matcher_transactions", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "matcher_id", null: false
+    t.string "original_name", null: false
+    t.string "new_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["matcher_id"], name: "index_matcher_transactions_on_matcher_id"
+    t.index ["transaction_id"], name: "index_matcher_transactions_on_transaction_id"
+  end
+
+  create_table "matchers", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "match_regex", null: false
+    t.string "replacer", null: false
+    t.datetime "enabled_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_matchers_on_account_id"
+  end
+
   create_table "spends", force: :cascade do |t|
     t.string "name"
     t.integer "category", default: 0, null: false
@@ -83,6 +104,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_154221) do
     t.boolean "always_positive", default: false
     t.boolean "ignored", default: false, null: false
     t.integer "kind", default: 0, null: false
+    t.boolean "generic", default: false, null: false
   end
 
   create_table "transactions", force: :cascade do |t|
@@ -125,6 +147,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_154221) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "imports", "accounts"
+  add_foreign_key "matcher_transactions", "matchers"
+  add_foreign_key "matcher_transactions", "transactions"
+  add_foreign_key "matchers", "accounts"
   add_foreign_key "transactions", "accounts"
   add_foreign_key "user_sessions", "users"
 end

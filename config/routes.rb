@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   resources :spends do
   end
 
+  resources :matchers do
+  end
+
 
   resources :imports, only: [:index, :show, :create] do
     member do

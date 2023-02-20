@@ -2,6 +2,9 @@ class Transaction < ApplicationRecord
   belongs_to :account
   belongs_to :spend, optional: true
 
+  has_many :matcher_transactions, dependent: :destroy
+  has_many :matchers, through: :matcher_transactions
+
   belongs_to :transfer_transaction, class_name: 'Transaction', optional: true, foreign_key: :transfer_transaction_id
 
   before_validation :set_defaults, on: :create
@@ -20,6 +23,7 @@ class Transaction < ApplicationRecord
   default_scope { where(ignored: false) }
 
   after_commit :try_to_match_transfer
+  after_commit :run_matchers, on: :create
 
   enum kind: { transaction: 0, one_off: 1, recurring: 2 }, _prefix: :kind
 
@@ -41,7 +45,9 @@ class Transaction < ApplicationRecord
     end
   end
 
-
+  def run_matchers
+    Matcher.match_by_name(self)
+  end
 
   def try_to_match_transfer
     if self.transfer_transaction.present?
@@ -78,7 +84,15 @@ class Transaction < ApplicationRecord
   end
 
   def pretty_name
-    spend&.name || name.presence || 'UNKNOWN'
+    if spend&.generic
+      "#{spend.name} (#{name})"
+    elsif spend
+      spend.name
+    elsif name.present?
+      name
+    else
+      'UNKNOWN'
+    end
   end
 
   def category

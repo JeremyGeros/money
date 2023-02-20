@@ -31,6 +31,11 @@
     </div>
 
     <div class='mr-4'>
+      <%= form.label :generic %>
+      <%= form.check_box :generic, class: 'text-input' %>
+    </div>
+
+    <div class='mr-4'>
       <%= form.label :kind %>
       <%= form.select :kind, options_for_select(Spend.kinds.keys, spend.kind), {include_blank: true}, class: 'text-input w-32' %>
     </div>
