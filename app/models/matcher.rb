@@ -6,7 +6,6 @@ class Matcher < ApplicationRecord
   
   validates :match_regex, presence: true
   validates :account, presence: true
-  validates :replacer, presence: true
 
   scope :enabled, -> { where.not(enabled_at: nil) }
 
@@ -17,6 +16,10 @@ class Matcher < ApplicationRecord
     matchers.each do |matcher|
       matcher.check_and_update(transaction)
     end
+  end
+
+  def replacer
+    replacer || ''
   end
 
   def enabled=(value)
