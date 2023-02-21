@@ -64,6 +64,7 @@ class Transaction < ApplicationRecord
         # Search for a transaction in the other account that matches the amount and date with a tolerance of $200 and 1 week
         matched = Transaction
           .where(account: to_account)
+          .personal_transfer
           .where(amount: (amount_to_search - 200.0)..(amount_to_search + 200.0))
           .where(made_at: (made_at - 1.week)..(made_at + 1.week))
           .where.not(id: id)

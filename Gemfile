@@ -74,6 +74,9 @@ gem 'money'
 gem "chartkick"
 gem "groupdate"
 
+gem 'whenever', require: false
+
+
 #search
 gem "elasticsearch-model"
 
