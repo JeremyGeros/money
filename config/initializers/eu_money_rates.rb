@@ -7,6 +7,8 @@ Money.default_bank = eu_bank
 
 cache = "/tmp/eu_bank_rates.xml"
 
+eu_bank.update_rates(cache)
+
 if !eu_bank.rates_updated_at || eu_bank.rates_updated_at < Time.now - 1.days
   eu_bank.save_rates(cache)
   eu_bank.update_rates(cache)
