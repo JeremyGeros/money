@@ -18,7 +18,7 @@ class Matcher < ApplicationRecord
     end
   end
 
-  def replacer
+  def replacer_or_empty
     replacer || ''
   end
 
@@ -34,7 +34,7 @@ class Matcher < ApplicationRecord
     if enabled_at.present? && transaction.name =~ /#{match_regex}/i
       matcher_transaction = matcher_transactions.new(original_name: transaction.name)
 
-      transaction.name = transaction.name.gsub(/#{match_regex}/i, replacer)
+      transaction.name = transaction.name.gsub(/#{match_regex}/i, replacer_or_empty)
       matcher_transaction.new_name = transaction.name
       matcher_transaction.matched_transaction = transaction
       
