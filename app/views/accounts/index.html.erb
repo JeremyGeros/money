@@ -102,6 +102,14 @@
       <h4 class='flex items-center justify-center'>Recurring Monthly avg. (<%= dates_range_display(@start_date, @end_date) %>)</h4>
       <%= monthly_avg_spent_between(@start_date, @end_date, kinds: ['recurring']) %>
     </div>
+
+    <div class='text-center'>
+      <%= link_to 'One-off transactions', grouping_path(one_off: true), class: 'btn btn-link' %>
+    </div>
+
+    <div class='text-center'>
+      <%= link_to 'Recurring transactions', grouping_path(recurring: true), class: 'btn btn-link' %>
+    </div>
   </div>
 
   <div class='grid grid-cols-2 gap-6 mt-10'>
