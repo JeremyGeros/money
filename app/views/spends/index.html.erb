@@ -16,9 +16,9 @@
   <tbody>
     <% @spends.each do |spend| %>
       <tr>
-        <td><%= display_spend_category(spend) %> <%= link_to spend.name, spend_path(spend) %></td>
-        <td><%= spend.category %></td>
-        <td><%= spend.spend_group %></td>
+        <td><%= display_spend_category(spend) %> <%= link_to spend.name, spend_path(spend), class: 'btn btn-link' %></td>
+        <td><%= link_to spend.category&.humanize, grouping_path(category: spend.category), class: 'btn btn-link' %></td>
+        <td><%= link_to spend.spend_group&.humanize, grouping_path(spend_group: spend.spend_group), class: 'btn btn-link' %></td>
         <td><%= spend.transactions.count %></td>
       </tr>
     <% end %>
