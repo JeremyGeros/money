@@ -56,7 +56,7 @@ class AccountsController < ApplicationController
 
   def transactions
     @pagy, @transactions = pagy(Transaction.all.order(made_at: :desc, id: :desc).includes(account: {logo_attachment: :blob}, spend: {icon_attachment: :blob}))
-    render partial: 'transactions/list', locals: { transactions: @transactions, show_account: true }
+    render partial: 'transactions/list', locals: { transactions: @transactions, show_account: true, show_groupings: true }
   end
 
   def all_spends_chart
@@ -80,11 +80,6 @@ class AccountsController < ApplicationController
   end
 
   private
-
-    def get_dates
-      @start_date = params[:start_date] ? Date.parse(params[:start_date]) : (Date.today - 6.month).beginning_of_month
-      @end_date = (Date.today - 1.month).end_of_month
-    end
 
     def set_account
       @account = Account.find(params[:id])

@@ -1,6 +1,14 @@
 module MoneyHelper
 
 
+  def sum_transactions(transactions, to_currency: 'MXN')
+    sum = 0
+    transactions.each do |t|
+      sum += t.to_currency(to_currency)
+    end
+    sum
+  end
+
   def total_mxn_balance
     @total_mxn_balance = Account.mxn.sum(&:balance)
 

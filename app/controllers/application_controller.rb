@@ -25,4 +25,9 @@ class ApplicationController < ActionController::Base
       .lighten_by(percentage)
       .html
   end
+
+  def get_dates
+    @start_date = params[:start_date] ? Date.parse(params[:start_date]) : (Date.today - 6.month).beginning_of_month
+    @end_date = (Date.today - 1.month).end_of_month
+  end
 end

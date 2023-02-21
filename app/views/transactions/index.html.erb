@@ -11,5 +11,5 @@
       <%= link_to 'Uncatergorized Transactions', transactions_path(without_spend: true), class: 'btn btn-link' %>
     <% end %>
   </div>
-  <%= render 'transactions/list', transactions: @transactions, show_account: true %>
+  <%= render 'transactions/list', transactions: @transactions, show_account: true, show_groupings: true %>
 </div>

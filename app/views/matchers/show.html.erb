@@ -8,5 +8,5 @@
 
 <h2>Transactions</h2>
 <% Transaction.unscoped do %>
-  <%= render 'transactions/list', transactions: @matcher.transactions, show_account: true %>
+  <%= render 'transactions/list', transactions: @matcher.transactions, show_account: true, show_groupings: true %>
 <% end %>

@@ -109,7 +109,11 @@
     <div class=''>
       <div class='border border-gray-300 rounded p-4'>
         <div class='flex items-center justify-between pb-2'>
-          <h4 class='font-bold'>Coffee (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+          <h4 class='font-bold'>
+            <%= link_to grouping_path(category: :cafe) do %>
+              Coffee (<%= dates_range_display(@start_date, @end_date) %>)
+            <% end %>
+          </h4>
 
           <div>Avg. <%= display_amount(monthly_avg_spent_between(@start_date, @end_date, spend: Spend.where(category: :cafe), formatted: false) * -1.0) %></div>
         </div>
@@ -121,7 +125,11 @@
     <div class=''>
       <div class='border border-gray-300 rounded p-4'>
         <div class='flex items-center justify-between pb-2'>
-          <h4 class='font-bold'>Restaurants (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+          <h4 class='font-bold'>
+            <%= link_to grouping_path(category: :restaurant) do %>
+              Restaurants (<%= dates_range_display(@start_date, @end_date) %>)
+            <% end %>
+          </h4>
 
           <div>Avg. <%= display_amount(monthly_avg_spent_between(@start_date, @end_date, spend: Spend.where(category: :restaurant), formatted: false) * -1.0) %></div>
         </div>
@@ -133,7 +141,11 @@
     <div class=''>
       <div class='border border-gray-300 rounded p-4'>
         <div class='flex items-center justify-between pb-2'>
-          <h4 class='font-bold'>Online Services (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+          <h4 class='font-bold'>
+            <%= link_to grouping_path(spend_group: :online_services) do %>
+              Online Services (<%= dates_range_display(@start_date, @end_date) %>)
+            <% end %>
+          </h4>
 
           <div>Avg. <%= display_amount(monthly_avg_spent_between(@start_date, @end_date, spend: Spend.where(spend_group: :online_services), formatted: false) * -1.0) %></div>
         </div>
@@ -145,7 +157,11 @@
     <div class=''>
       <div class='border border-gray-300 rounded p-4'>
         <div class='flex items-center justify-between pb-2'>
-          <h4 class='font-bold'>Supermarket (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+          <h4 class='font-bold'>
+            <%= link_to grouping_path(category: :supermarket) do %>
+              Supermarket (<%= dates_range_display(@start_date, @end_date) %>)
+            <% end %>
+          </h4>
 
           <div>Avg. <%= display_amount(monthly_avg_spent_between(@start_date, @end_date, spend: Spend.where(category: :supermarket), formatted: false) * -1.0) %></div>
         </div>
@@ -157,7 +173,11 @@
     <div class=''>
       <div class='border border-gray-300 rounded p-4'>
         <div class='flex items-center justify-between pb-2'>
-          <h4 class='font-bold'>Entertainment (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+          <h4 class='font-bold'>
+            <%= link_to grouping_path(category: :entertainment) do %>
+              Entertainment (<%= dates_range_display(@start_date, @end_date) %>)
+            <% end %>
+          </h4>
 
           <div>Avg. <%= display_amount(monthly_avg_spent_between(@start_date, @end_date, spend: Spend.where(spend_group: :entertainment), formatted: false) * -1.0) %></div>
         </div>
@@ -169,7 +189,11 @@
      <div class=''>
       <div class='border border-gray-300 rounded p-4'>
         <div class='flex items-center justify-between pb-2'>
-          <h4 class='font-bold'>Amazon (<%= dates_range_display(@start_date, @end_date) %>)</h4>
+          <h4 class='font-bold'>
+            <%= link_to grouping_path(name: 'Amazon') do %>
+              Amazon (<%= dates_range_display(@start_date, @end_date) %>)
+            <% end %>
+          </h4>
 
           <div>Avg. <%= display_amount(monthly_avg_spent_between(@start_date, @end_date, spend: Spend.where(name: 'Amazon'), formatted: false) * -1.0) %></div>
         </div>

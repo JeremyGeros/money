@@ -6,6 +6,9 @@
         <% if show_account %>
           <th class='text-left'>Account</th>
         <% end %>
+        <% if show_groupings %>
+          <th class='text-left'>Grouping</th>
+        <% end %>
         <th class='text-right'>Amount</th>
         <th class='text-right'>Made at</th>
       </tr>
@@ -30,6 +33,15 @@
           </td>
           <% if show_account %>
             <td class='flex items-center py-2'><%= image_tag transaction.account.logo, class: 'w-4 mr-1' if transaction.account.logo.attached? %><%= link_to transaction.account.name, account_path(transaction.account), target: "_top" %></td>
+          <% end %>
+          <% if show_groupings %>
+            <td class=''>
+              <% if transaction.spend %>
+                <%= link_to transaction.spend.category&.humanize, grouping_path(category: transaction.spend.category), target: "_top", class: 'btn btn-link' %>
+                /
+                <%= link_to transaction.spend.spend_group&.humanize, grouping_path(spend_group: transaction.spend.spend_group), target: "_top", class: 'btn btn-link' %>
+              <% end %>
+            </td>
           <% end %>
           <td class='text-right'><%= display_amount_colored(transaction.amount, '', transaction.color_override) %></td>
           <td class='text-right'><%= pretty_date_display(transaction.made_at) %></td>

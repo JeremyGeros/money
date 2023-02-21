@@ -106,5 +106,13 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def to_currency(currency)
+    if account.currency == currency
+      amount
+    else
+      Money.from_amount(amount, account.currency).exchange_to(currency).to_f
+    end
+  end
+
 
 end

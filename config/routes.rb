@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   resources :matchers do
   end
 
+  resource :grouping, only: [:show]
+
 
   resources :imports, only: [:index, :show, :create] do
     member do
