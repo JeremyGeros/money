@@ -65,14 +65,13 @@ module ApplicationHelper
       'electronics' => '📱',
       'home' => '🏠',
       'taxis' => '🚕',
-      'movies' => '🎥',
+      'movies_tv' => '🎥',
       'water' => '💧',
       'power' => '⚡',
       'internet' => '🌐',
       'salary' => '💰',
       'payment' => '💳',
       'books' => '📚',
-      'tv' => '📺',
       'web_services' => '🌐',
       'rent' => '🏠',
       'dairy' => '🥛',
@@ -82,6 +81,7 @@ module ApplicationHelper
       'interest' => '💰',
       'taxes' => '📃',
       'travel' => '✈️',
+      'bank_fees' => '💳',
       'delivery_food' => '🍕',
     }
 
