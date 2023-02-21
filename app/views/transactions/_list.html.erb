@@ -16,7 +16,7 @@
 
     <tbody>
       <% transactions.each do |transaction| %>
-        <tr class='border-b border-zinc-200 scroll-mt-32' id="transaction_<%= transaction.id %>">
+        <tr class='border-b border-zinc-200 scroll-mt-32 hover:bg-gray-50' id="transaction_<%= transaction.id %>">
           <td class='break-all py-2 max-w-xl'>
             <div class='flex items-center group'>
               <span class='mr-2'><%= display_spend_category(transaction.spend) %></span>
